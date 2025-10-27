@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jacob M. Monaco</title>
+    <link rel="stylesheet" href="../style.css" />
+  </head>
+  <body>
+    <!-- Nav Section -->
+    <nav class="navbar">
+      <div class="navbar-left">
+        <a href="../index.html">
+          <img src="../images/logos/logosphere.png" alt="Logo" class="logo-img" />
+        </a>
+        <div class="placeholder-title">
+          <p>Jacob Monaco: Data Analyst Portfolio</p>
+        </div>
+      </div>
+      <div class="navbar-center">
+        <a class="nav-link" href="../about.html">About</a>
+        <a class="nav-link" href="../contact.html">Contact</a>
+      </div>
+    </nav>
+
+    <!-- Title Section -->
+    <section class="featured-section split">
+      <h2>How Can a Wellness Technology Company Play It Smart?</h2>
+      <p>
+        Welcome to my Google Data Analytics capstone project. In this case
+        study, I will perform many real-world tasks of a junior data analyst. The
+        scenario is I am working for
+        <a
+          href="https://bellabeat.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Bellabeat</a
+        >, a high-tech manufacturer of health-focused products. Urška Sršen and
+        Sando Mur founded Bellabeat with the motive of enhancing women's health through technology.
+        Their products collect data on the user's activity, sleep, stress, and reproductive
+        health, which has empowered women globally with knowledge about their health and
+        habits. In order to answer the key business questions, I'll follow the
+        steps of the data analysis process from the     <a
+        href="https://www.coursera.org/google-certificates/google-data-analytics"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Google Data Analytics</a
+      > course: <strong>ask</strong>,
+        <strong>prepare</strong>, <strong>process</strong>,
+        <strong>analyze</strong>, <strong>share</strong>, and
+        <strong>act</strong>. This webpage is a full presentation of my process and analysis to
+        the Bellabeat executive team and contains recommendations for
+        Bellabeats marketing strategy. 
+      </p>
+      <img
+        src="../images/logos/Bellabeat_logo.webp.png"
+        alt="Bellabeat logo"
+        style="max-width: 3000px; height: auto; border-radius: 40%;"
+      />
+    </section>
+    <!-- Ask Section -->
+    <section class="featured-section">
+      <h3>Ask → Business Task & Stakeholders</h3>
+
+      <p>
+        <strong>Business Task:</strong> I will analyze smart device fitness data (from Fitbit, used as a proxy for Bellabeat products) to identify trends in how consumers use smart devices to track their health and wellness. The goal is to uncover insights that can inform Bellabeat’s marketing strategy and strengthen its position in the smart wellness market.
+      
+      <p>
+        <strong>Stakeholders:</strong> Urška Sršen (Cofounder & Chief Creative Officer), 
+        Sando Mur (Cofounder), the Bellabeat executive team, and the Bellabeat marketing 
+        analytics department. These groups will use my insights to guide business decisions in the competitive smart 
+        device market.
+      </p>
+      
+      <p>
+        <strong>I'll address the three key business questions provided:</strong>
+        <ul>
+          <li>What are some trends in smart device usage?</li>
+          <li>How could these trends apply to Bellabeat customers?</li>
+          <li>How could these trends influence Bellabeat’s marketing strategy? </li>         
+        </ul>
+        My idea is by identifying which features users engage with most, when they are most active, and whether consistency improves health outcomes, Bellabeat can tailor its marketing and app notifications to align with real user behavior.
+      </p>
+    </section>
+    <!-- Prepare Section -->
+    <section class="featured-section">
+      <h3>Prepare → Retrieving Data, Credibility, and Limitations</h3>  
+   <p> <strong>Data Source:</strong>    <a href="https://www.kaggle.com/datasets/arashnic/fitbit/discussion?sort=undefined">Public Fitbit Fitness Tracker Dataset</a>. The data comes from Kaggle and it has over 180k downloads and nearly one million views as of September 2025. </p>
+
+    <p><strong>About the Data:</strong> The dataset comes from 30 Fitbit users who were recruited through Amazon Mechanical Turk between March and May 2016, and they shared their device data (steps, heart rate, sleep, etc.) for the survey. Individual reports can be parsed by export session ID (column A) or timestamp (column B). Variation between output represents use of different types of Fitbit trackers and individual tracking behaviors / preferences.</p>
+
+    <p><strong>Contents:</strong> In the zip file contains raw data that's stored in two folders separated by month; the first month (3.12.16-4.11-16) contains 11 CSV files, the final month (4.12.16-5.12-16) contains 18 CSV files for a total of 29 CSV files. Most of the data is stored in long format, with three exceptions in wide format. The table below summarizes the contents of the Kaggle dataset and indicates whether each file should be merged across months or retained as a single-month dataset.</p>
+
+   <!-- DATASETS & ACTIONS TABLE -->
+<!-- DATASETS & ACTIONS TABLE WITH DESCRIPTIONS -->
+<table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; text-align: left; width: 100%;">
+  <thead style="background-color: #f2f2f2;">
+    <tr>
+      <th>Dataset</th>
+      <th>Data Description</th>
+      <th>Processing Step</th>
+      <th>Availability Window</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Group: Merge -->
+    <tr>
+      <td colspan="4"><strong>Merge (11) — combine month ranges</strong></td>
+    </tr>
+    <tr>
+      <td>dailyActivity_merged.csv</td>
+      <td>Daily totals for steps, distance, and calories burned</td>
+      <td>Merge · Mar–May</td>
+      <td>Mar–May (both months)</td>
+    </tr>
+    <tr>
+      <td>heartrate_seconds_merged.csv</td>
+      <td>Heart rate readings recorded at the second level</td>
+      <td>Merge · Mar–May</td>
+      <td>Mar–May (both months)</td>
+    </tr>
+    <tr>
+      <td>hourlyCalories_merged.csv</td>
+      <td>Calories burned, aggregated by hour</td>
+      <td>Merge · Mar–May</td>
+      <td>Mar–May (both months)</td>
+    </tr>
+    <tr>
+      <td>hourlyIntensities_merged.csv</td>
+      <td>Intensity of activity (low, moderate, high) by hour</td>
+      <td>Merge · Mar–May</td>
+      <td>Mar–May (both months)</td>
+    </tr>
+    <tr>
+      <td>hourlySteps_merged.csv</td>
+      <td>Total steps taken per hour</td>
+      <td>Merge · Mar–May</td>
+      <td>Mar–May (both months)</td>
+    </tr>
+    <tr>
+      <td>minuteCaloriesNarrow_merged.csv</td>
+      <td>Calories burned per minute (narrow format)</td>
+      <td>Merge · Mar–May</td>
+      <td>Mar–May (both months)</td>
+    </tr>
+    <tr>
+      <td>minuteIntensitiesNarrow_merged.csv</td>
+      <td>Activity intensity per minute (narrow format)</td>
+      <td>Merge · Mar–May</td>
+      <td>Mar–May (both months)</td>
+    </tr>
+    <tr>
+      <td>minuteMETsNarrow_merged.csv</td>
+      <td>Metabolic equivalent (MET) values recorded per minute</td>
+      <td>Merge · Mar–May</td>
+      <td>Mar–May (both months)</td>
+    </tr>
+    <tr>
+      <td>minuteSleep_merged.csv</td>
+      <td>Minute-by-minute sleep logs (asleep, restless, awake)</td>
+      <td>Merge · Mar–May</td>
+      <td>Mar–May (both months)</td>
+    </tr>
+    <tr>
+      <td>minuteStepsNarrow_merged.csv</td>
+      <td>Steps recorded per minute (narrow format)</td>
+      <td>Merge · Mar–May</td>
+      <td>Mar–May (both months)</td>
+    </tr>
+    <tr>
+      <td>weightLogInfo_merged.csv</td>
+      <td>Logged weight, BMI, and timestamps for each entry</td>
+      <td>Merge · Mar–May</td>
+      <td>Mar–May (both months)</td>
+    </tr>
+
+    <!-- Group: Keep -->
+    <tr>
+      <td colspan="4"><strong>Keep (7) — single-month datasets</strong></td>
+    </tr>
+    <tr>
+      <td>dailyCalories_merged.csv</td>
+      <td>Daily total calories burned</td>
+      <td>Keep · Apr–May</td>
+      <td>Apr–May only</td>
+    </tr>
+    <tr>
+      <td>dailyIntensities_merged.csv</td>
+      <td>Daily average activity intensity levels</td>
+      <td>Keep · Apr–May</td>
+      <td>Apr–May only</td>
+    </tr>
+    <tr>
+      <td>dailySteps_merged.csv</td>
+      <td>Total steps per day</td>
+      <td>Keep · Apr–May</td>
+      <td>Apr–May only</td>
+    </tr>
+    <tr>
+      <td>minuteCaloriesWide_merged.csv</td>
+      <td>Minute-level calorie data (wide format)</td>
+      <td>Keep · Apr–May</td>
+      <td>Apr–May only</td>
+    </tr>
+    <tr>
+      <td>minuteIntensitiesWide_merged.csv</td>
+      <td>Minute-level activity intensity (wide format)</td>
+      <td>Keep · Apr–May</td>
+      <td>Apr–May only</td>
+    </tr>
+    <tr>
+      <td>minuteStepsWide_merged.csv</td>
+      <td>Minute-level step counts (wide format)</td>
+      <td>Keep · Apr–May</td>
+      <td>Apr–May only</td>
+    </tr>
+    <tr>
+      <td>sleepDay_merged.csv</td>
+      <td>Daily sleep totals (minutes asleep and in bed)</td>
+      <td>Keep · Apr–May</td>
+      <td>Apr–May only</td>
+    </tr>
+  </tbody>
+</table>
+
+
+    <p><strong>Credibility:</strong> Original Fitbit device logs from 30 MTurk participants (2016); comprehensive for activity/sleep/HR but small, older sample; cited on Kaggle under CC0.</p>
+
+    <p><strong>Licensing, Privacy, Security, Accessibility:</strong> CC0 1.0 Universal (public domain) permits reuse.</p>
+    
+    <p><strong>Problems & Limitations:</strong> A few limitations occur in the data. To begin with, the 30 user sample size is limited and user ID doesn't reveal demographics of each sample which means sampling bias is introduced. We know the users are online survey participants from Mechanical Turk, which may bias toward a specific niche of people. Another limitation is the relatively short time frame of two months, which may not enough time to detect long term health patterns. The last limitation I'll note is the outdated nature of this data. The data is from 2016 which is basically a decade ago from now and the market and user behavior may have shifted.</p>
+    
+
+    </section>
+    <!-- Process Section -->
+    <section class="featured-section">
+      <h3>Process → Cleaning with R</h3>
+      <p><strong>Merging CSVs</strong></p>
+      <p>Added "01_" to beginning of first month file names, and "02_" for the second month. I did this for simplicity and to distinguish file when merging them in the next step. Now that the raw CSVs were ready to be skimmed and merged, I created a new project in R and wrote the following in an R file:</p>
+      <pre>
+        library(tidyverse)
+        # Merging Files
+        # 1. Daily Activity
+        daily_activity_01 <- read.csv("01_dailyActivity_merged.csv", stringsAsFactors = FALSE)
+        daily_activity_02 <- read.csv("02_dailyActivity_merged.csv", stringsAsFactors = FALSE)
+        daily_activity    <- bind_rows(daily_activity_01, daily_activity_02)
+        write.csv(daily_activity, "dailyActivity_merged.csv", row.names = FALSE)
+          </pre>
+          <p>This process was repeated for the remaining 10 files to merge.</p>
+          <p> I added <code>stringsAsFactors = FASLE</code>  to avoid automatic string conversions. I combined them vertically with <code>bind_rows()</code> from the tidyverse library, and then saved the new CSV with <code>row.names = FALSE</code> to avoid the extra column of row numbers. After reviewing all eleven core CSV files, I identified seven that were most relevant to my project’s analytical goals and therefore selected them for the cleaning process. These files contained the key activity, sleep, and health tracking data needed to answer my research questions.
+
+          <table border="1" cellspacing="0" cellpadding="6">
+            <thead>
+              <tr>
+                <th>File</th>
+                <th>What It Shows</th>
+                <th>Cleaned File Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>dailyActivity_merged.csv</code></td>
+                <td>Provides daily summary metrics such as total steps, distance, calories burned, and active vs. sedentary minutes. This file drives most of the key insights about user activity and wellness habits.</td>
+                <td><code>daily_activity_clean.csv</code></td>
+              </tr>
+              <tr>
+                <td><code>hourlySteps_merged.csv</code></td>
+                <td>Reveals time-of-day activity patterns, helping identify when users are most active. Useful for understanding engagement times and daily routines.</td>
+                <td><code>hourly_steps_clean.csv</code></td>
+              </tr>
+              <tr>
+                <td><code>hourlyCalories_merged.csv</code></td>
+                <td>Tracks hourly calorie expenditure, allowing comparison with step activity to detect peaks in energy burn throughout the day.</td>
+                <td><code>hourly_calories_clean.csv</code></td>
+              </tr>
+              <tr>
+                <td><code>hourlyIntensities_merged.csv</code></td>
+                <td>Captures hourly intensity levels (light, moderate, and very active minutes). Supports a deeper look at workout effort and overall movement quality.</td>
+                <td><code>hourly_intensities_clean.csv</code></td>
+              </tr>
+              <tr>
+                <td><code>minuteSleep_merged.csv</code></td>
+                <td>Provides minute-by-minute sleep tracking data, helping identify average sleep duration, bedtime patterns, and how rest may relate to next-day activity.</td>
+                <td><code>minute_sleep_clean.csv</code></td>
+              </tr>
+              <tr>
+                <td><code>weightLogInfo_merged.csv</code></td>
+                <td>Shows how frequently users log their weight and BMI. Useful for gauging engagement with health tracking features, though many users leave optional fields like body fat blank (kept intentionally to reflect real-world behavior).</td>
+                <td><code>weight_log_info_clean.csv</code></td>
+              </tr>
+              <tr>
+                <td><code>minuteStepsNarrow_merged.csv</code></td>
+                <td>Offers fine-grained step tracking at the minute level, allowing detailed visualizations of short-term bursts of activity and more precise trend analysis.</td>
+                <td><code>minute_steps_narrow_clean.csv</code></td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <p><strong>Cleaning CSVs</strong></p>
+          <p> I began by skimming through the datasets while keeping the project’s key questions in mind, then identified which CSV files were most relevant for my analysis. I focused on cleaning those core files (seven  in total) each following a similar structure and process. In this report, I'll show the process of cleaning hourly_calories. I started this process by opening a new R file and loading libraries introduced in the Google Data Analytics course, which made reading, cleaning, and summarizing data in R seamless:</p>
+          <pre>
+          library(tidyverse)
+          library(here)
+          library(skimr)
+          library(janitor)
+          </pre>
+          
+          <p>Next, I imported the hourly calories dataset and verified how R interpreted each column so I could catch any type issues early.</p>
+          <pre>
+          hourly_calories <- read_csv("hourlyCalories_merged.csv")
+          spec(hourly_calories)
+          </pre>
+          
+          <p>I converted the date column from text into a proper date-time so it can be grouped and plotted by hour without errors. Then I re-checked and took a quick structured look at the data.</p>
+          <pre>
+          hourly_calories <- hourly_calories %>%
+            mutate(ActivityHour = as.POSIXct(ActivityHour, format = "%m/%d/%Y %I:%M:%S %p"))
+          spec(hourly_calories)
+          glimpse(hourly_calories)
+          </pre>
+          
+          <p>I used <code>skim_without_charts</code> to show missing values and data summaries, confirmed there were 33 rows with missing timestamps, and removed them because records without an hour cannot be reliably grouped or analyzed.</p>
+          <pre>
+          skim_without_charts(hourly_calories)
+          hourly_calories <- hourly_calories %>% filter(!is.na(ActivityHour))
+          skim_without_charts(hourly_calories)
+          </pre>
+          
+          <p>I checked for duplicate records using <code>sum(duplicated())</code>, identified 175 duplicates caused by a prior merge, and kept one unique record per Id and hour.</p>
+          <pre>
+          sum(duplicated(hourly_calories))
+          hourly_calories <- hourly_calories %>%
+            distinct(Id, ActivityHour, .keep_all = TRUE)
+          sum(duplicated(hourly_calories))
+          </pre>
+          
+          <p>For a quick visualization, I created a boxplot and to look for outliers and understand the data distribution shape. There were no significant outliers, however a few entries showed over 900 calories burned per hour, which I needed to verify for plausibility. According to the Wisconsin Department of Health Services, a 190lb person burns roughly 950 calories per hour while running at a nine-minute-mile pace, and a 155lb person burns a similar amount at a 7.5-mile pace. This confirms these values were possible to achieve, though they represent extremely intense activity levels only achievable by individuals capable of sustaining activity similar to running eight to ten miles in one sitting.</p>
+          <pre>
+          boxplot(hourly_calories$Calories)
+          </pre>
+          
+          <p>Finally, I saved the clean file and reloaded it to confirm it's use.</p>
+          <pre>
+          write_csv(hourly_calories, "hourly_calories_clean.csv")
+          hourly_calories_clean <- read_csv("hourly_calories_clean.csv")
+          </pre>
+          <p>A similar process was followed for the remaining CSV files, with only minor differences depending on each dataset’s structure. Most files contained duplicated values that appeared while merging the months, which I resolved by keeping one unique record per user ID and timestamp. The same cleaning sequence was repeated for hourly intensities, hourly steps, minute sleep, and minute steps. I note in the <code>weight_log_info</code>: several users did not log their body fat percentage, resulting in many N/A values in the <code>fat</code> column. Rather than removing these rows, I chose to keep them to reflect real-world user behavior, where some fields are optional and not every participant tracks every metric.</p>
+    </section>
+   <!-- Analyze Section -->
+    <section class="featured-section">
+      <h3>Analyze → Data Aggregation and Calculations </h3>
+      <p>This stage organizes and summarizes the cleaned Fitbit datasets to make patterns visible.
+        Using R, I merged daily activity and sleep files, then created several summarized tables showing user behavior, patterns, and relationships.</p>
+
+        <p>In the process below, I merge to align sleep data with each user's activity. The key columns shared between these datasets are <code>id</code> and <code>date</code>. I use left_join() to keep all daily activity rows even is the user didn't log sleep. This will help analyze how users log these features and the results.</p>
+        <pre>
+          sleep_day <- minute_sleep_clean %>%
+            filter(value == 1) %>%
+            mutate(date = as.Date(date)) %>%
+            group_by(id, date) %>%
+            summarize(
+              total_minutes_asleep = sum(value),
+              total_sleep_records  = n_distinct(log_id),
+              total_time_in_bed    = total_minutes_asleep,
+              .groups = "drop"
+            )
+          
+          daily_activity <- daily_activity_clean %>%
+            mutate(date = activity_date)
+          
+          daily_activity_sleep <- daily_activity %>%
+            left_join(
+              sleep_day %>%
+                select(id, date, total_sleep_records, total_minutes_asleep, total_time_in_bed),
+              by = c("id", "date")
+            )
+          </pre>
+          <p>I now have a <code>daily_activity_sleep</code> dataset which I can use to create more datasets seamlessly, beginning with a dataset I'll call <code>daily_summary_by_user</code> to summarize each user's typical day: steps, calories, activity, and sleep.Before that however, I wanted to see how often each feature is utilized and logged, so I used the process below.</p>
+          <pre>sleep_usage <- sleep_day %>%
+            summarize(
+              users_with_sleep_logs = n_distinct(id),
+              total_sleep_logs = n(),
+              avg_logs_per_user = total_sleep_logs / users_with_sleep_logs
+            )</pre>
+
+            <p> I repeat this process to find sleep and activity usage:</p>
+            <table border="1" cellspacing="0" cellpadding="6">
+              <thead style="background-color: #f2f2f2;">
+                <tr>
+                  <th>Feature</th>
+                  <th>Users Who Logged</th>
+                  <th>Total Logs</th>
+                  <th>Avg Logs per User</th>
+                  <th>% of Users Using Feature</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Activity</strong></td>
+                  <td>35</td>
+                  <td>1,397</td>
+                  <td>39.9</td>
+                  <td>100%</td>
+                </tr>
+                <tr>
+                  <td><strong>Sleep</strong></td>
+                  <td>25</td>
+                  <td>835</td>
+                  <td>33.4</td>
+                  <td>71%</td>
+                </tr>
+                <tr>
+                  <td><strong>Weight</strong></td>
+                  <td>13</td>
+                  <td>98</td>
+                  <td>7.5</td>
+                  <td>37%</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <p>The results above provide some valuable insight into what features are used by FitBit users. The next process i'll continue creating the <code>daily_summary_by_user</code> dataset.</p>
+            
+        <pre>daily_summary_by_user <- daily_activity_sleep %>%
+          group_by(id) %>%
+          summarize(
+            days_observed = n(),
+            avg_steps = mean(total_steps, na.rm = TRUE),
+            pct_days_10k_plus = mean(total_steps >= 10000, na.rm = TRUE) * 100,
+            avg_calories = mean(calories, na.rm = TRUE),
+            avg_sedentary_minutes = mean(sedentary_minutes, na.rm = TRUE),
+            avg_minutes_asleep = mean(total_minutes_asleep, na.rm = TRUE)
+          )
+        </pre>
+        <p>In this process, I aggregated daily data by user to calculate averages and if they reached the scientifically recommended goal of 10k steps. After a quick skim of the table, the results revealed some key insights including the average minutes of sleep per user (379 minutes or a bit over 6 hours). This user sample also averages about 6.9k steps per day. According to UCLA health, the average American adult takes 4000-5000 steps per day. I use similar data aggregation methods to make a few more CSVs. The table below summarizes each aggregated CSV.</p> 
+        <table border="1" cellspacing="0" cellpadding="6">
+          <thead style="background-color: #f2f2f2;">
+            <tr>
+              <th>File Name</th>
+              <th>Description / Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>weight_usage.csv</strong></td>
+              <td>Shows how frequently users logged their weight, including total logs and average logs per user. Useful for understanding engagement with health-tracking features.</td>
+            </tr>
+            <tr>
+              <td><strong>sleep_usage.csv</strong></td>
+              <td>Summarizes sleep logging activity per user, showing how many users tracked sleep and how often. Indicates the popularity of sleep tracking among Bellabeat users.</td>
+            </tr>
+            <tr>
+              <td><strong>activity_usage.csv</strong></td>
+              <td>Displays how many users tracked physical activity and the average number of daily logs. Activity tracking is recorded for all users and forms the foundation for most insights.</td>
+            </tr>
+            <tr>
+              <td><strong>daily_activity_sleep.csv</strong></td>
+              <td>Merged dataset combining daily activity and sleep data by user ID and date. Used for cross-feature analysis (e.g., how sleep affects daily movement).</td>
+            </tr>
+            <tr>
+              <td><strong>daily_summary_by_user.csv</strong></td>
+              <td>Aggregates daily data to show each user’s average steps, calories, sleep, and activity type. Useful for understanding typical user behavior patterns.</td>
+            </tr>
+            <tr>
+              <td><strong>weekday_summary.csv</strong></td>
+              <td>Summarizes activity by weekday to identify when users are most active or inactive (e.g., Monday vs. Sunday).</td>
+            </tr>
+            <tr>
+              <td><strong>hourly_steps_summary.csv</strong></td>
+              <td>Analyzes average steps per hour of the day to reveal peak activity times and daily movement patterns.</td>
+            </tr>
+            <tr>
+              <td><strong>steps_calories_summary.csv</strong></td>
+              <td>Calculates correlation between total daily steps and calories burned. Demonstrates how activity directly impacts energy expenditure.</td>
+            </tr>
+            <tr>
+              <td><strong>sleep_nextday_summary.csv</strong></td>
+              <td>Analyzes how sleep duration the previous night affects next-day activity. Useful for understanding cross-day behavioral relationships.</td>
+            </tr>
+          </tbody>
+        </table>
+        
+    </section>
+   <!-- Share Section -->
+    <section class="featured-section">
+      <h3>Share → Visuals & Story</h3>
+      <p>This section visualizes the main findings from the Bellabeat analysis, highlighting user patterns in activity, sleep, and feature engagement. Tableau was used for scatter plots to reveal relationships between variables; users were color-coded and points made semi-transparent to expose data clusters and overlapping trends. Google Sheets was used for line and bar graphs to clearly display overall trends and comparisons. Together, these visuals combine analytical depth with readability to support Bellabeat’s marketing insights.</p>
+
+      <table border="0" cellspacing="15">
+        <tr>
+          <td valign="top">
+            <img src="../images/capstone_images/activeusertime.png" width="450" alt="Average and Median Steps per Hour">
+            <p><strong>Average and Median Steps per Hour</strong><br>
+            Daily rhythm shows minimal movement overnight (12–5 AM), increasing after 6 AM, and peaking 4–7 PM. The average (blue) exceeds the median (red), showing a few highly active users skew results. Bellabeat could send motivational or step-reminder notifications during the evening peak.</p>
+          </td>
+          <td valign="top">
+            <img src="../images/capstone_images/sleep_sedentary.png" width="450" alt="Sleep vs Sedentary Minutes">
+            <p><strong>Total Minutes Asleep vs. Sedentary Minutes</strong><br>
+            Most points cluster around 7 hours of sleep and 11–14 sedentary hours. There’s only a weak negative trend—more sleep doesn’t guarantee less sitting. Bellabeat could encourage timed movement reminders to help reduce sedentary time independently of sleep habits.</p>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">
+            <img src="../images/capstone_images/sleep_fairlyactive.png" width="450" alt="Sleep vs Fairly Active Minutes">
+            <p><strong>Total Minutes Asleep vs. Fairly Active Minutes</strong><br>
+            Most users show 0–30 minutes of moderate activity regardless of sleep duration, with a few outliers. This indicates that daily routine matters more than rest. Bellabeat could promote “morning stretch” or “midday movement” habits to build consistency.</p>
+          </td>
+          <td valign="top">
+            <img src="../images/capstone_images/sleep_veryactive.png" width="450" alt="Sleep vs Very Active Minutes">
+            <p><strong>Total Minutes Asleep vs. Very Active Minutes</strong><br>
+            Very active minutes are infrequent and vary widely. Vigorous activity tends to occur sporadically and isn’t sleep-dependent. Bellabeat could tailor challenges for users showing occasional intensity to encourage more frequent high-effort days.</p>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">
+            <img src="../images/capstone_images/steps_by_user.png" width="450" alt="Average and Median Steps by User">
+            <p><strong>Average and Median Steps by User</strong><br>
+            Activity levels differ greatly: top users reach 12k–17k steps, while others stay below 5k. Medians are lower than averages, showing occasional big days. Bellabeat can segment users: advanced users get performance insights; beginners receive gradual goal progressions.</p>
+          </td>
+          <td valign="top">
+            <img src="../images/capstone_images/feature_usage.png" width="450" alt="Feature Usage Percentages">
+            <p><strong>Percent of Users Using Each Feature</strong><br>
+            All users log activity (100%), 71% track sleep, and 37% log weight. The drop shows manual logging deters engagement. Bellabeat should highlight effortless automatic tracking and make manual inputs (like weight) simpler or reframed as overall progress tracking.</p>
+          </td>
+        </tr>
+      </table>
+      
+    </section>
+   <!-- Act Section -->
+    <section class="featured-section">
+      <h3>Act → Recommendations & Next Steps</h3>
+
+      <p><strong>Key Insights:</strong><br>
+      Analysis showed that users were most active during the late afternoon and evening hours (4–8 PM), slept an average of 7 hours per night, and averaged about 7,300 daily steps. Sleep duration had a weak negative correlation with next-day activity, suggesting rest alone doesn’t drive movement. The majority of users logged sleep (71%), but fewer tracked weight (37%), reflecting a preference for effortless automatic tracking.</p>
+      
+      <p><strong>Recommended Actions for Bellabeat:</strong><br>
+      1. <strong>Time Notifications Strategically:</strong> Send activity reminders and motivational messages during evening peak hours when users are most likely to respond.<br>
+      2. <strong>Promote Automatic Features:</strong> Highlight effortless data collection (like sleep and stress tracking) in marketing to match user preferences.<br>
+      3. <strong>Encourage Consistency:</strong> Offer daily micro-challenges (e.g., 10-minute walks or hydration goals) to build regular activity habits.<br>
+      4. <strong>Reframe Manual Tracking:</strong> Simplify or gamify manual input features such as weight logging to increase engagement.</p>
+      
+      <p><strong>Next Steps:</strong><br>
+      Future analysis could explore how Bellabeat’s mindfulness and hydration data relate to user activity and stress levels. Incorporating newer datasets or real-time app engagement metrics could strengthen predictions of user behavior. This case study has been added to my online portfolio to showcase the complete data analytics process from the Google Data Analytics course.</p>
+    </section>
+
+<!-- FOOTER -->
+<footer id="footer">
+  <div class="footer-content">
+    <p>&copy; 2025 Jacob Monaco</p>
+    <p><a href="#top">Back to top</a></p>
+  </div>
+</footer>
+
+  </body>
+</html>
