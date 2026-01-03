@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jacob Monaco</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Nav Section -->
+    <nav class="navbar">
+      <div class="navbar-left">
+        <a href="../index.html">
+          <img
+            src="../images/logos/logosphere.png"
+            alt="Logo"
+            class="logo-img"
+          />
+        </a>
+        <div class="placeholder-title">
+          <p>Jacob Monaco: Portfolio</p>
+        </div>
+      </div>
+      <div class="navbar-center">
+        <a
+          class="nav-link"
+          href="https://www.linkedin.com/in/jacobmonaco"
+          target="_blank"
+        >
+          <i class="fab fa-linkedin fa-lg"></i>
+        </a>
+        <a
+          class="nav-link"
+          href="https://mail.google.com/mail/?view=cm&fs=1&to=jacob.monaco03@gmail.com"
+          target="_blank"
+          title="Email Me"
+        >
+          <i class="fas fa-envelope fa-lg"></i>
+        </a>
+      </div>
+    </nav>
+    <!-- Title Section -->
+    <section class="featured-section">
+      <h2>
+        Electricity Consumption Trends by State per Capita (2010–2024): Data
+        Analysis Process
+      </h2>
+    </section>
+    <!-- Introduction Section -->
+    <section class="featured-section">
+      <div>
+        <h3>1.0 Introduction</h3>
+        <img
+          src="../images/eia_images/Rural landscape with power pylons.png"
+          alt="Percent change in residential electricity consumption per capita by state, 2010–2024"
+        />
+        <p>
+          In the United States, residential electricity use varies widely across
+          states and over time. Because states differ substantially in
+          population size and growth, raw electricity consumption totals do not
+          allow for meaningful comparison. This analysis does not ask whether
+          overall electricity use increased or decreased, nor does it attempt to
+          determine whether events such as the COVID-19 pandemic caused observed
+          changes. These questions are either well established or not testable
+          with the available data.
+        </p>
+        <p>
+          Instead, this report examines which states experienced increases or
+          decreases in residential electricity consumption per capita, and
+          whether those changes occurred gradually over time or were
+          concentrated around specific periods, such as 2020.
+        </p>
+        <p>
+          This analysis does not claim causation. Factors such as weather,
+          policy decisions, and social behavior are outside the scope of this
+          project. The purpose of per-capita analysis is to enable fair
+          comparison across states with different population sizes and growth
+          trajectories. Understanding how residential electricity consumption
+          per capita has evolved over time provides context for benchmarking,
+          comparative evaluation, and longer-term discussions about energy
+          efficiency and economic planning—without attributing outcomes to
+          specific drivers.
+        </p>
+      </div>
+    </section>
+<!-- Prepare Section -->
+<section class="featured-section split">
+  <div>
+    <h3>2.0 Sources of Data</h3>
+
+    <h4>2.1 Electricity Sales Data</h4>
+    <p>
+      Residential electricity sales data were obtained from the U.S. Energy
+      Information Administration (EIA). The dataset includes annual retail
+      sales of electricity to ultimate consumers, disaggregated by sector
+      and by state.
+    </p>
+    <p>
+      Key fields include:
+      <br />• Year
+      <br />• State
+      <br />• Sales (MWh)
+    </p>
+
+    <h4>2.2 Population Data</h4>
+    <p>
+      State population data were sourced from the United States Census
+      Bureau’s State Population Totals for the years 2010–2024.
+    </p>
+    <p>
+      Key fields include:
+      <br />• Year
+      <br />• State
+      <br />• Population
+    </p>
+
+    <p>
+      These datasets were selected to allow residential electricity
+      consumption to be normalized on a per-capita basis, enabling
+      consistent comparisons across states and over time.
+    </p>
+
+    <!-- Source links -->
+    <p style="font-size: 0.9rem; color: #555; margin-top: 16px;">
+      <strong>Data Sources:</strong><br />
+      <a href="https://www.eia.gov/electricity/data.php" target="_blank" rel="noopener">
+        U.S. Energy Information Administration — Electricity Data
+      </a><br />
+      <a href="https://www.census.gov/topics/population.html" target="_blank" rel="noopener">
+        U.S. Census Bureau — Population Data
+      </a>
+    </p>
+  </div>
+
+  <!-- Right column: consistent stacked figures -->
+  <div style="display: grid; gap: 16px;">
+    <div
+      style="
+        width: 100%;
+        height: 240px;
+        border-radius: 8px;
+        overflow: hidden;
+        background: #fff;
+      "
+    >
+      <img
+        src="../images/eia_images/sales_data.png"
+        alt="EIA residential electricity sales data structure"
+        style="width: 100%; height: 100%; object-fit: contain; display: block;"
+      />
+    </div>
+
+    <div
+      style="
+        width: 100%;
+        height: 240px;
+        border-radius: 8px;
+        overflow: hidden;
+        background: #fff;
+      "
+    >
+      <img
+        src="../images/eia_images/popbystate.png"
+        alt="State population data by year"
+        style="width: 100%; height: 100%; object-fit: contain; display: block;"
+      />
+    </div>
+  </div>
+</section>
+
+
+
+
+
+    <!-- Process Section -->
+<!-- Process Section -->
+<section class="featured-section">
+  <div>
+    <h3>3.0 Process: Data Cleaning, Normalization, and Validation (Python)</h3>
+
+    <h4>3.1 Data Cleaning</h4>
+    <p>
+      Prior to processing in Python, both datasets were briefly reviewed in Google Sheets to verify structure,
+      remove non-data headers, and confirm consistent formatting of year and state fields. The datasets were then
+      imported into Python using pandas.
+    </p>
+    <p>The primary data-cleaning steps included:</p>
+    <p>
+      • <strong>Standardizing column names and data types:</strong> Column names were normalized (lowercased in the EIA file)
+      and renamed to consistent fields used throughout the workflow (state, state_code, year, sales_mwh, population).<br /><br />
+      • <strong>Aligning state identifiers:</strong> State names from the Census file were cleaned (leading characters removed)
+      and mapped to two-letter state codes to enable a reliable join key.<br /><br />
+      • <strong>Reshaping population data:</strong> Census population data were converted from wide format (years as columns)
+      to long format (one row per state-year).<br /><br />
+      • <strong>Filtering to comparable geography:</strong> The EIA “US” aggregate row was removed so the dataset reflects
+      state-level observations only.
+    </p>
+
+    <h4>3.2 Normalization</h4>
+    <p>
+      After cleaning, the population and EIA sales datasets were merged on <strong>state_code</strong> and <strong>year</strong>.
+      Electricity sales were converted from <strong>MWh to kWh</strong>, and per-capita consumption was computed as
+      <strong>kWh per person</strong> for each state-year.
+    </p>
+
+    <h4>3.3 Validation Checks</h4>
+    <p>
+      Basic validation checks were used to confirm the merged dataset behaved as expected (e.g., confirming year bounds,
+      expected state counts, and verifying that the merge produced the expected row count). These checks support internal
+      consistency before visualization in Tableau.
+    </p>
+        <h4>3.4 Jupyter Notebook Processing Steps</h4>
+    
+        <p>
+          Data processing was performed in a single Jupyter Notebook using Python
+          and the pandas library. The notebook focused on reshaping the population
+          data, aligning state identifiers across datasets, merging population and
+          electricity sales data, and computing residential electricity consumption
+          per capita.
+        </p>
+    
+        <p>
+          Population data from the U.S. Census Bureau were first cleaned by
+          standardizing the state column, removing non-data characters, and
+          reshaping the dataset from wide format (years as columns) to long format
+          (one row per state-year). State names were then mapped to two-letter state
+          codes to create a consistent join key.
+        </p>
+    
+        <p>
+          Residential electricity sales data from the EIA were imported separately,
+          column names were standardized, and only relevant fields were retained.
+          The national aggregate row was removed so that the dataset reflected
+          state-level observations only.
+        </p>
+    
+        <p>
+          After cleaning, the two datasets were merged on state code and year.
+          Electricity sales values were converted from megawatt-hours (MWh) to
+          kilowatt-hours (kWh), and per-capita residential electricity consumption
+          was calculated by dividing total electricity consumption by state
+          population for each year.
+        </p>
+    
+        <pre><code class="language-python">import pandas as pd
+    
+    # --- Load and clean population data ---
+    pop = pd.read_excel("USCensus_PopbyState.xlsx", header=1)
+    pop = pop.rename(columns={pop.columns[0]: "state"})
+    pop["state"] = pop["state"].str.lstrip(".")
+    
+    pop_long = pop.melt(
+        id_vars="state",
+        var_name="year",
+        value_name="population"
+    )
+    pop_long["year"] = pop_long["year"].astype(int)
+    
+    state_to_code = {
+        "Alabama":"AL","Alaska":"AK","Arizona":"AZ","Arkansas":"AR","California":"CA",
+        "Colorado":"CO","Connecticut":"CT","Delaware":"DE","District of Columbia":"DC",
+        "Florida":"FL","Georgia":"GA","Hawaii":"HI","Idaho":"ID","Illinois":"IL",
+        "Indiana":"IN","Iowa":"IA","Kansas":"KS","Kentucky":"KY","Louisiana":"LA",
+        "Maine":"ME","Maryland":"MD","Massachusetts":"MA","Michigan":"MI",
+        "Minnesota":"MN","Mississippi":"MS","Missouri":"MO","Montana":"MT",
+        "Nebraska":"NE","Nevada":"NV","New Hampshire":"NH","New Jersey":"NJ",
+        "New Mexico":"NM","New York":"NY","North Carolina":"NC","North Dakota":"ND",
+        "Ohio":"OH","Oklahoma":"OK","Oregon":"OR","Pennsylvania":"PA","Rhode Island":"RI",
+        "South Carolina":"SC","South Dakota":"SD","Tennessee":"TN","Texas":"TX",
+        "Utah":"UT","Vermont":"VT","Virginia":"VA","Washington":"WA",
+        "West Virginia":"WV","Wisconsin":"WI","Wyoming":"WY"
+    }
+    pop_long["state_code"] = pop_long["state"].map(state_to_code)
+    
+    # --- Load and clean electricity sales data ---
+    eia = pd.read_excel("EIA_sales_data.xlsx", header=1)
+    eia.columns = eia.columns.str.lower()
+    eia = eia[["year", "state", "sales_megawatthours"]]
+    eia = eia.rename(columns={"sales_megawatthours": "sales_mwh"})
+    
+    # --- Merge and compute per-capita consumption ---
+    df = pop_long.merge(eia, on=["state", "year"], how="inner")
+    
+    df["sales_kwh"] = df["sales_mwh"] * 1000
+    df["kwh_per_capita"] = df["sales_kwh"] / df["population"]
+    
+    # --- Export final dataset ---
+    df_final = df[["state", "year", "population", "sales_mwh", "kwh_per_capita"]]
+    df_final.to_csv(
+        "residential_kwh_per_capita_by_state_2010_2024.csv",
+        index=False
+    )</code></pre>
+    
+        <p>
+          The resulting normalized dataset was exported as a CSV file and used as
+          the input for all subsequent visualizations in Tableau.
+        </p>
+      </div>
+    </section>
+    
+
+
+ <!-- Analyze Section -->
+<section class="featured-section">
+  <div>
+    <h3>4.0 Analysis Framework</h3>
+    <p>
+      Tableau was used as the primary visualization tool to examine patterns in
+      residential electricity consumption per capita across U.S. states. To
+      allow for fair comparisons across states, electricity consumption values
+      (kWh) were normalized by population rather than relying on raw electricity
+      sales totals. The map below displays the percent change in residential
+      electricity consumption per capita from 2010 to 2024. A few of the
+      highest and lowest percent changes are labeled.
+    </p>
+
+    <h4>4.1 Percent Change in Electricity Consumption by State</h4>
+    <img
+      src="../images/eia_images/pct_change.png"
+      alt="Aggregated Percent Change"
+      style="
+        max-width: 100%;
+        height: auto;
+        margin-top: 20px;
+        border-radius: 8px;
+      "
+    />
+
+    <p>
+      The national map summarizes changes in per-capita residential electricity
+      consumption between 2010 and 2024. Clear regional patterns emerge, with
+      much of the Southeast exhibiting sustained declines, while several states
+      in the Intermountain West show increases over the same period.
+    </p>
+
+    <h4>
+      4.2 States with Increasing Per-Capita Residential Electricity Consumption
+    </h4>
+
+    <p>
+      The states in this section end the study period with higher residential
+      electricity consumption per capita than in the early 2010s, though the
+      trajectories differ. Across these cases, consumption is relatively stable
+      or declines through much of the 2010s, then rises notably after 2020. The
+      increases are therefore concentrated in the early 2020s rather than
+      gradual across the full period.
+    </p>
+
+    <div class="image-grid">
+      <div>
+        <img
+          src="../images/eia_images/utah.png"
+          alt="Utah residential electricity consumption per capita, 2010–2024"
+        />
+        <p>
+          Utah’s per-capita residential electricity consumption is fairly stable
+          in the early 2010s, then drops noticeably between 2013 and 2014. It
+          remains lower and relatively constrained through the late 2010s,
+          reaching a local low around 2019. After 2020, consumption increases
+          sharply and reaches the series high by 2024.
+        </p>
+      </div>
+
+      <div>
+        <img
+          src="../images/eia_images/new_mexico.png"
+          alt="New Mexico residential electricity consumption per capita, 2010–2024"
+        />
+        <p>
+          New Mexico shows a sustained decline from 2010 through roughly 2017.
+          Consumption then rises sharply into 2020. From 2020 onward, levels
+          fluctuate moderately and reach a local high around 2023.
+        </p>
+      </div>
+
+      <div>
+        <img
+          src="../images/eia_images/arizona.png"
+          alt="Arizona residential electricity consumption per capita, 2010–2024"
+        />
+        <p>
+          Arizona’s per-capita consumption trends downward with year-to-year
+          variability through 2019. Usage spikes in 2020, followed by a pullback
+          in 2021. It then increases again and remains above pre-2020 levels by
+          2024.
+        </p>
+      </div>
+
+      <div>
+        <img
+          src="../images/eia_images/maine.png"
+          alt="Maine residential electricity consumption per capita, 2010–2024"
+        />
+        <p>
+          Maine increases through the early-to-mid 2010s before declining around
+          2016. Consumption then rises again into the late 2010s and early 2020s,
+          peaking around 2021. After 2021, per-capita consumption trends
+          downward.
+        </p>
+      </div>
+    </div>
+
+    <h4>
+      4.3 States with Declining Per-Capita Residential Electricity Consumption
+    </h4>
+
+    <p>
+      The states in this section exhibit a net decline in residential
+      electricity consumption per capita from the early 2010s to the end of the
+      period. While brief recoveries and short-term volatility appear,
+      later-year levels remain below initial values. Much of the downward shift
+      occurs early in the decade, followed by fluctuations around a lower
+      baseline rather than a return to prior highs.
+    </p>
+
+    <div class="image-grid">
+      <div>
+        <img
+          src="../images/eia_images/south_carolina.png"
+          alt="South Carolina residential electricity consumption per capita, 2010–2024"
+        />
+        <p>
+          South Carolina drops sharply between 2010 and 2012 from an early-period
+          high to a much lower level. It partially rebounds in the mid-to-late
+          2010s, including noticeable increases around 2014 and 2018, but
+          remains below 2010 levels. After 2019, consumption generally trends
+          downward, hitting a low around 2023 before a modest rise in 2024.
+        </p>
+      </div>
+
+      <div>
+        <img
+          src="../images/eia_images/tennessee.png"
+          alt="Tennessee residential electricity consumption per capita, 2010–2024"
+        />
+        <p>
+          Tennessee declines steeply in the early 2010s, especially between 2010
+          and 2012. It then fluctuates through the mid-to-late 2010s with a
+          local low around 2017 and a temporary uptick in 2018. Post-2019 levels
+          remain below early-decade values, with additional dips around 2020 and
+          2023 followed by a partial rebound in 2024.
+        </p>
+      </div>
+
+      <div>
+        <img
+          src="../images/eia_images/kentucky.png"
+          alt="Kentucky residential electricity consumption per capita, 2010–2024"
+        />
+        <p>
+          Kentucky shows a pronounced decline from 2010 to 2012. Consumption
+          then oscillates across the 2010s, including a recovery around 2014 and
+          a notable increase around 2018. After 2019, usage trends downward
+          again, reaching a low around 2023 before a slight increase in 2024.
+        </p>
+      </div>
+
+      <div>
+        <img
+          src="../images/eia_images/virginia.png"
+          alt="Virginia residential electricity consumption per capita, 2010–2024"
+        />
+        <p>
+          Virginia declines sharply between 2010 and 2012, then partially
+          recovers to a local peak around 2014. Consumption falls again into a
+          local low near 2017, followed by a temporary increase in 2018. The
+          early 2020s show a gradual downward trend, reaching the series low
+          around 2023 before a modest rebound in 2024 that remains below
+          early-decade levels.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+ <!-- Share Section -->
+<section class="featured-section">
+  <h3>5.0 Findings and Limitations</h3>
+
+  <p>
+    Tableau sheets are
+    used to highlight cross-state comparisons, long-term trends, and
+    differences in the timing and magnitude of changes in residential
+    electricity consumption per capita. These visuals and descriptions are designed to support
+    discussion on electricity usage.
+  </p>
+
+  <p>
+    This analysis shows per-capita residential electricity
+    consumption trends vary substantially across U.S. states, both in direction
+    and timing. More specifically, much of the Southeast shows sustained declines in annual consumption per capita, while several states in the Intermountain West show increases over the same period. 
+  </p>
+  <p>
+    While the results provide descriptive insight into how residential
+    electricity consumption has evolved over time, this analysis does not
+    attribute observed changes to specific causes. Factors such as weather
+    variation, energy prices, housing characteristics, efficiency standards,
+    and behavioral changes are outside the scope of the data used here. As a
+    result, the findings should be interpreted as structural patterns rather
+    than evidence of underlying drivers.
+  </p>
+
+  <p>
+    Future analyses could extend this work by incorporating weather-adjusted
+    demand measures, energy price data, or housing stock characteristics to
+    better contextualize state-level trends. Nonetheless, the current analysis
+    demonstrates how careful normalization, comparative framing, and restrained
+    interpretation can yield meaningful insights while maintaining analytical
+    rigor and transparency.
+  </p>
+</section>
+
+
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="footer">
+      <div class="footer-content">
+        <p>&copy; 2025 Jacob Monaco</p>
+        <p><a href="#top">Back to top</a></p>
+      </div>
+    </footer>
+  </body>
+</html>
