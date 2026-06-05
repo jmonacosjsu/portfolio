@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Environmental Attitudes Survey Analysis | Jacob Monaco</title>
+    <meta
+      name="description"
+      content="Cleaning and analyzing 384 college-student survey responses on environmental attitudes — scoring, pivot tables, and statistical tests in Google Sheets."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body id="top">
+    <!-- Nav -->
+    <nav class="navbar">
+      <div class="navbar-left">
+        <a href="../index.html" aria-label="Home">
+          <img src="../images/logos/logosphere.png" alt="Jacob Monaco logo" class="logo-img" />
+        </a>
+        <div class="placeholder-title"><p>Jacob Monaco</p></div>
+      </div>
+      <div class="navbar-center">
+        <a class="nav-link" href="https://www.linkedin.com/in/jacobmonaco" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        <a class="nav-link" href="https://mail.google.com/mail/?view=cm&fs=1&to=jacob.monaco03@gmail.com" target="_blank" rel="noopener" title="Email me" aria-label="Email me">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Title -->
+    <header class="featured-section" style="margin-top: clamp(28px, 5vw, 56px)">
+      <span class="hero-eyebrow">Google Sheets &middot; Survey Analysis</span>
+      <h2 style="font-size: clamp(1.9rem, 1.2rem + 3vw, 3rem); border: none; padding: 0; margin-top: 18px">
+        What Influences Students' Environmental Attitudes?
+      </h2>
+      <p class="lead" style="margin-top: 4px">
+        An analysis of 384 college students in Turkey.
+      </p>
+    </header>
+
+    <!-- Introduction -->
+    <section class="featured-section split">
+      <div>
+        <h3>1.0 Introduction</h3>
+        <p>
+          As a way to polish my Google Sheets and survey-analysis skills, I
+          decided to dive into some Kaggle data. I have a passion for analyzing
+          data for positive impact, and in a world where environmental
+          challenges are becoming increasingly urgent, the role of
+          environmental, climate, and sustainability-related education is as
+          important as ever. I was intrigued by this particular dataset since it
+          provided everything needed to run a statistical analysis on whether
+          environmental education has an effect on students.
+        </p>
+        <p>
+          Data Source:
+          <a href="https://www.kaggle.com/datasets/suleymansulak/environmental-attitude-dataset" target="_blank" rel="noopener">Environmental Attitude Dataset (Kaggle)</a>
+        </p>
+        <p>
+          This project analyzes how students' sustainability mindsets vary
+          across the demographic information provided in the survey, and
+          exposure to environmental or climate-related education. To summarize
+          these responses, I came up with an Environmental Attitude Score (EAS):
+          a comparable score to represent a student's level of positive
+          environmental awareness and sustainability attitudes. I go deeper into
+          what this means and how it's calculated in section 2. The goal of this
+          analysis is to determine which factors available in this survey may
+          correlate with stronger sustainability attitudes among students.
+        </p>
+        <div class="callout">
+          <p style="margin: 0">
+            <em>Note: Analysis and visualizations for this project were performed
+            <strong>entirely</strong> in Google Sheets.</em>
+          </p>
+        </div>
+      </div>
+
+      <figure class="figure">
+        <img
+          src="../images/logos/environmentalsurvey.png"
+          alt="Environmental Attitudes Survey logo"
+        />
+      </figure>
+    </section>
+
+    <!-- Process -->
+    <section class="featured-section">
+      <h3>2.0 Process: Data Cleaning &amp; Applying Formulas</h3>
+
+      <div class="split" style="align-items: start; margin-top: 24px">
+        <div>
+          <h4 style="margin-top: 0">2.1 — Data Cleaning</h4>
+          <p>
+            The survey includes 37 total variables from demographic information
+            as well as variables measuring concerns about climate change,
+            resource use, recycling habits, and general environmental awareness.
+          </p>
+          <p>
+            I imported the raw Kaggle dataset and reviewed its structure. When
+            opening in Google Sheets, it came with three files: a sheet of the
+            raw data containing each user's survey input, a sheet explaining the
+            numeric raw data, and a citation request.
+          </p>
+          <p>
+            All fields were coded numerically, so I cleaned and transformed the
+            data using <code>ARRAYFORMULA</code> to convert values into readable
+            labels (e.g., Yes/No responses, sex, income category, and home
+            location). Since the dataset did not include participant IDs, I
+            created a unique ID column to support cleaner referencing.
+          </p>
+          <p>
+            The survey contained 27 environmental attitude questions with numeric
+            responses: 1 (absolutely disagree) to 5 (absolutely agree). Of the 27
+            questions, several were reverse-scored (where a value of 5
+            represented the least environmentally supportive response). To create
+            a standardized score for all questions, I applied reverse-coding
+            using <code>ARRAYFORMULA(6 - column range)</code>.
+          </p>
+        </div>
+
+        <figure class="figure">
+          <img
+            src="../images/envsurvey_images/process1.png"
+            alt="Raw dataset and documentation in Google Sheets"
+          />
+          <figcaption>
+            Raw response sheet, data explanation, and citation information.
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="split" style="align-items: start; margin-top: 24px">
+        <div>
+          <h4 style="margin-top: 0">2.2 — Building the EAS</h4>
+          <p>
+            To calculate the Environmental Attitude Score (EAS), I added a header
+            marker (1) above all properly formatted question columns. I did this
+            to ensure the next step filters only the properly formatted
+            questions. I then computed each participant's EAS using a filtered
+            average, and converted it to a percentage to standardize scores:
+            <code>=AVERAGE(FILTER(range of scores), (range) = 1)*2/10</code>.
+          </p>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>EAS</th>
+                  <th>Interpretation</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>0% – 59.99%</td>
+                  <td>
+                    <strong>Counterintuitive:</strong> reflects environmentally
+                    harmful or unaware attitudes. Indicates a counterproductive
+                    understanding of sustainability issues.
+                  </td>
+                </tr>
+                <tr>
+                  <td>60% – 69.99%</td>
+                  <td>
+                    <strong>Unsatisfactory:</strong> generally neutral attitudes
+                    toward environmental behavior. Not ideal for raising
+                    sustainability awareness.
+                  </td>
+                </tr>
+                <tr>
+                  <td>70% – 79.99%</td>
+                  <td>
+                    <strong>Satisfactory:</strong> generally supports positive
+                    sustainability and environmental attitudes, however there is
+                    still room for improvement.
+                  </td>
+                </tr>
+                <tr>
+                  <td>80% – 89.99%</td>
+                  <td>
+                    <strong>Supportive:</strong> reflects deep environmental
+                    awareness and good pro-sustainability behaviors. This is the
+                    target range for students.
+                  </td>
+                </tr>
+                <tr>
+                  <td>90% – 100%</td>
+                  <td>
+                    <strong>Exceeds Expectations:</strong> reflects outstanding
+                    sustainability and climate awareness and behaviors. This is
+                    the "poster-child" range where students should want to fall.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>
+            I also created a consolidated variable indicating whether each
+            respondent had taken any relevant environmental, climate, or
+            sustainability course. Using
+            <code>=OR(H3="Yes", J3="Yes", L3="Yes")</code>, I generated a
+            TRUE/FALSE column that grouped participants into course-takers and
+            non-takers.
+          </p>
+        </div>
+
+        <figure class="figure">
+          <img
+            src="../images/envsurvey_images/process2.png"
+            alt="IDs, EAS, and course indicator"
+          />
+          <figcaption>
+            Processed sheet showing IDs, EAS values, and the course-taker
+            TRUE/FALSE indicator.
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Analysis -->
+    <section class="featured-section">
+      <h3>3.0 Analysis</h3>
+
+      <h4>3.1.1 — Dashboard</h4>
+      <p>
+        Below is the full environmental attitudes dashboard I created based on
+        the 384 student survey responses. This analysis includes demographic
+        breakdowns, Environmental Attitude Score (EAS) distributions, comparisons
+        by living situation and income level, Pearson correlation tests, and a
+        course-impact T-test evaluating whether prior environmental education is
+        linked to stronger sustainability attitudes.
+      </p>
+      <figure class="figure">
+        <img
+          src="../images/envsurvey_images/dashboard1.0.png"
+          alt="Full Environmental Attitudes Survey dashboard"
+        />
+        <figcaption>
+          Full dashboard summarizing demographic patterns, Environmental
+          Attitude Scores, and statistical tests across the student sample.
+        </figcaption>
+      </figure>
+
+      <h4>3.1.2 — Interpretations from the Dashboard</h4>
+      <ul>
+        <li>
+          Respondents living in the city scored generally higher, with slightly
+          more environmentally educated students per share.
+        </li>
+        <li>Means among most broad group categories are relatively similar.</li>
+        <li>
+          Although respondents with relevant environmental coursework scored
+          higher EAS's, the difference is so minute (0.7 percentage points), and
+          the p-value of 0.501 suggests the difference is so small that it is
+          indistinguishable from random noise.
+        </li>
+      </ul>
+
+      <h4>3.2.1 — Additional Insights</h4>
+      <p>
+        Below is a screenshot of my Sheets analysis containing additional
+        insights from the dataset. These include a histogram of Environmental
+        Attitude Scores (EAS), pivot-table subcategories (living situation,
+        income level, and environmental course completion), and an average score
+        breakdown for each survey question to identify specific areas where there
+        are gaps in awareness.
+      </p>
+      <figure class="figure">
+        <img
+          src="../images/envsurvey_images/analyze1.png"
+          alt="Additional analysis: histogram, pivot tables, and average EAS by question"
+        />
+        <figcaption>
+          Additional sheet with a histogram of EAS scores, a pivot table
+          comparing subcategorized groups with conditional formatting, and
+          average EAS by question.
+        </figcaption>
+      </figure>
+
+      <h4>3.2.2 — Interpretation of Additional Insights</h4>
+      <ul>
+        <li>
+          The Environmental Attitude Score (EAS) distribution is strongly
+          right-skewed, with most students scoring between 80–100%. This suggests
+          strong environmental attitudes within this student sample.
+        </li>
+        <li>
+          Average EAS differs slightly by income level and home location, but the
+          variation is small and not statistically meaningful.
+        </li>
+        <li>
+          Question 13 asked whether students check for a recycling symbol on
+          products, and it had the lowest average score at 63.33%. This indicates
+          a key area where just a small behavioral change like checking a label
+          could lead to improvement in sustainability awareness.
+        </li>
+      </ul>
+    </section>
+
+    <!-- Conclusion -->
+    <section class="featured-section">
+      <h3>4.0 Conclusion and Limitations</h3>
+      <p>
+        Overall, this 384-student dataset shows strong environmental attitudes,
+        with an average Environmental Attitude Score of 84.44%. Most students
+        scored between 80–100%, indicating a generally high level of
+        sustainability awareness within this sample despite most students (about
+        70%) not having completed an environment/sustainability-related course.
+        Demographic differences were minimal: income level and age showed
+        virtually no correlation with EAS, and while students living in cities
+        scored slightly higher than those in districts or towns by a couple
+        percent, the variation was not statistically meaningful.
+      </p>
+      <p>
+        Additional insights highlight specific gaps in awareness. The
+        weakest-scoring survey question was Question 13, whether students check
+        for a recycling symbol when buying products. This question had an average
+        score of just 63.33%. This suggests that small, everyday behaviors such
+        as checking labels represent an opportunity for improvement for many
+        students within this sample.
+      </p>
+
+      <h4>4.1 Limitations</h4>
+      <p>While completing this study, a few limitations were noted:</p>
+      <ul>
+        <li>
+          Income categories in the dataset were unevenly represented. This
+          imbalance makes it difficult to interpret differences between income
+          groups and limits statistical power.
+        </li>
+        <li>
+          Environmental course completion had small "TRUE" samples. With only
+          about 30% of students completing at least one course, this makes
+          educational impact harder to detect even when trends, although minute,
+          appear in the averages.
+        </li>
+        <li>
+          All data is self-reported, which may introduce bias, especially in
+          questions related to personal environmental practices.
+        </li>
+        <li>
+          Some reverse-coded questions, including the question regarding whether
+          students check for a label when recycling, introduce the possibility of
+          misunderstanding among students, potentially affecting the accuracy of
+          some measurable variables.
+        </li>
+        <li>
+          More broadly, the dataset represents a single, relatively tiny region
+          and student population, so findings may not generalize to broader
+          national or international groups.
+        </li>
+      </ul>
+
+      <p>
+        Despite these limitations, this analysis still provides a clear picture
+        of sustainability attitudes among students. While demographic factors and
+        prior coursework did not have a significant influence, the consistently
+        high EAS across the entire sample suggests that these students generally
+        possess strong environmental awareness already. There are still
+        opportunities for positive impact, and they appear to lie in specific
+        behaviors as seen in lower average scores within certain questions.
+      </p>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+      <div class="footer-content">
+        <p>&copy; 2026 Jacob Monaco</p>
+        <p><a href="#top">Back to top &uarr;</a></p>
+      </div>
+    </footer>
+
+    <script src="../script.js"></script>
+  </body>
+</html>
